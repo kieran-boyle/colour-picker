@@ -271,7 +271,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  gridContainer.addEventListener('mousedown', handleMouseDown);
+  gridContainer.addEventListener('mousedown', (event) => {
+    event.preventDefault(); // Prevent default behavior
+    handleMouseDown(event); // Call your custom mouse down event handler
+  });
   document.addEventListener('mousemove', handleMouseMove);
   document.addEventListener('mouseup', handleMouseUp);
 
