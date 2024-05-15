@@ -30,9 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (frameData) {
               gridItem.style.backgroundColor = frameData[i];
           }
-          gridItem.addEventListener('click', () => {
-              gridItem.style.backgroundColor = colorPicker.value;
-          });
+          gridItem.addEventListener('click', handleCellClick);
           gridContainer.appendChild(gridItem);
       }
   }
@@ -154,7 +152,127 @@ document.addEventListener('DOMContentLoaded', () => {
       outputFrames();
   });
 
-  initializeGrid();
-  addFrameToUI(); // Add the initial frame
+  let isDragging = false;
+  let startX, startY, endX, endY;
+  let shiftPressed = false;
+
+  function handleMouseDown(event) {
+      isDragging = true;
+      startX = event.clientX;
+      startY = event.clientY;
+
+      if (!shiftPressed) {
+          clearSelection();
+      }
+  }
+
+  function handleMouseMove(event) {
+      if (isDragging) {
+          endX = event.clientX;
+          endY = event.clientY;
+
+          const rectX = Math.min(startX, endX);
+          const rectY = Math.min(startY, endY);
+          const rectWidth = Math.abs(endX - startX);
+          const rectHeight = Math.abs(endY - startY);
+
+          highlightTilesInRectangle(rectX, rectY, rectWidth, rectHeight);
+      }
+  }
+
+  function handleMouseUp(event) {
+      if (isDragging) {
+          isDragging = false;
+
+          selectTilesInRectangle(startX, startY, endX, endY);
+          fillSelectedCells(colorPicker.value);
+      }
+  }
+
+  function clearSelection() {
+      const highlightedTiles = document.querySelectorAll('.grid-item.highlighted');
+      highlightedTiles.forEach(tile => {
+          tile.classList.remove('highlighted');
+      });
+  }
+
+  function handleCellClick(event) {
+      const clickedTile = event.target;
+
+      if (shiftPressed) {
+          clickedTile.classList.toggle('highlighted');
+          clickedTile.style.backgroundColor = colorPicker.value;
+      } else {
+          clearSelection();
+          clickedTile.classList.add('highlighted');
+          clickedTile.style.backgroundColor = colorPicker.value;
+      }
+  }
+
+  function highlightTilesInRectangle(x, y, width, height) {
+    const gridItems = document.querySelectorAll('.grid-item');
+    gridItems.forEach(tile => {
+        const rect = tile.getBoundingClientRect();
+        const tileX = rect.left + window.scrollX;
+        const tileY = rect.top + window.scrollY;
+
+        if (
+            tileX + tile.offsetWidth >= x &&
+            tileX <= x + width &&
+            tileY + tile.offsetHeight >= y &&
+            tileY <= y + height
+        ) {
+            tile.classList.add('highlighted');
+            tile.style.border = '2px solid red'; // Add red border
+        } else {
+            tile.classList.remove('highlighted');
+            tile.style.border = 'none'; // Remove border
+        }
+    });
+}
+
+function selectTilesInRectangle(startX, startY, endX, endY) {
+    const gridItems = document.querySelectorAll('.grid-item');
+    gridItems.forEach(tile => {
+        const rect = tile.getBoundingClientRect();
+        const tileX = rect.left + window.scrollX;
+        const tileY = rect.top + window.scrollY;
+
+        if (
+            tileX + tile.offsetWidth >= Math.min(startX, endX) &&
+            tileX <= Math.max(startX, endX) &&
+            tileY + tile.offsetHeight >= Math.min(startY, endY) &&
+            tileY <= Math.max(startY, endY)
+        ) {
+            tile.classList.add('highlighted');
+        }
+    });
+}
+
+function fillSelectedCells(color) {
+    const highlightedTiles = document.querySelectorAll('.grid-item.highlighted');
+    highlightedTiles.forEach(tile => {
+        tile.style.backgroundColor = color;
+    });
+}
+
+document.addEventListener('keydown', event => {
+    if (event.key === 'Shift') {
+        shiftPressed = true;
+    }
+});
+
+document.addEventListener('keyup', event => {
+    if (event.key === 'Shift') {
+        shiftPressed = false;
+    }
+});
+
+gridContainer.addEventListener('mousedown', handleMouseDown);
+document.addEventListener('mousemove', handleMouseMove);
+document.addEventListener('mouseup', handleMouseUp);
+
+initializeGrid();
+addFrameToUI(); // Add the initial frame
 });
 
