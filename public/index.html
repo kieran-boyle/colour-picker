@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Picker Grid</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="settings-container">
+        <button id="settings-button">⚙️</button>
+        <button id="add-frame-button">Add Frame</button>
+        <div id="dropdown-menu">
+            <input type="number" id="x-input" placeholder="Grid width" min="1" max="20">
+            <input type="number" id="y-input" placeholder="Grid height" min="1" max="20">
+            <button id="set-button">Set Grid Size</button>
+        </div>
+        <div id="frame-menu">
+            <button id="new-frame-button">Add New Frame</button>
+            <button id="duplicate-frame-button">Duplicate Frame</button>
+        </div>
+    </div>
+    <div id="grid-container"></div>
+    <div id="color-controls">
+        <input type="color" id="color-picker" value="#ff0000">
+        <button id="output-button">Output</button>
+    </div>
+    <div id="frame-buttons"></div>
+    <script src="script.js"></script>
+</body>
+</html>

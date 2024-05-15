@@ -1,0 +1,91 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+
+#settings-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+#settings-button, #add-frame-button {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+#dropdown-menu, #frame-menu {
+  display: none;
+  position: absolute;
+  top: 30px;
+  left: 0;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  z-index: 1;
+}
+
+#frame-menu {
+  top: 60px;
+}
+
+#controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+#x-input, #y-input {
+  width: 100px;
+  padding: 5px;
+}
+
+#set-button {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+#grid-container {
+  display: grid;
+  gap: 5px;
+  margin-bottom: 20px;
+}
+
+.grid-item {
+  width: 50px;
+  height: 50px;
+  background-color: #ddd;
+  border: 1px solid #aaa;
+  cursor: pointer;
+}
+
+#color-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#color-picker {
+  width: 100px;
+  height: 30px;
+}
+
+#output-button {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+#frame-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 20px;
+}
+
+.frame-button {
+  padding: 5px 10px;
+  cursor: pointer;
+}
