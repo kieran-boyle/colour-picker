@@ -52,6 +52,8 @@ body {
   display: grid;
   gap: 5px;
   margin-bottom: 20px;
+  grid-template-columns: repeat(200, 50px);
+  grid-template-rows: repeat(50, 50px);
 }
 
 .grid-item {
